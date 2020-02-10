@@ -3,7 +3,6 @@
 exports.seed = async knex => {
   await knex('profiles').insert([
     {
-      id: 1,
       user_id: 2,
       name: 'John Doe',
       phone: '(212) 555-1212',
@@ -19,7 +18,6 @@ exports.seed = async knex => {
       job_history3: '',
     },
     {
-      id: 2,
       user_id: 4,
       name: 'Adam Smith',
       phone: '(202) 555-3434',

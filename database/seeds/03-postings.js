@@ -3,7 +3,6 @@
 exports.seed = async knex => {
   await knex('postings').insert([
     {
-      id: 1,
       user_id: 3,
       job_title: 'Front-End Web Dev',
       company: 'ACME Widgets',
@@ -16,7 +15,6 @@ exports.seed = async knex => {
       pay: '$30,000 - $40,000 depending on experience',
     },
     {
-      id: 2,
       user_id: 5,
       job_title: 'Full-stack Developer',
       company: 'Unicornz',

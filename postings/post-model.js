@@ -44,7 +44,9 @@ async function add(posting) {
     pay: posting.pay || '',
   };
 
-  const [id] = await db('postings').insert(cleanPosting);
+  const [id] = await db('postings')
+    .returning('id')
+    .insert(cleanPosting);
   return findById(id);
 }
 
