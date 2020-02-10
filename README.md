@@ -1,5 +1,39 @@
 # Backend
 
+
+## Deployment Notes
+
+The database for the back-end is currently set up to use PostgreSQL for production and sqlite3 for dev and test environments.  Because there are some incompatibilities between the underlying SQL or knex calls with these two databases, there are separate migrations and seeds for production use.  There are also two separate sqlite3 files, for the dev and test databases.
+
+To initialize the database on a local machine, the following commands should be run.  Replace 'production' with 'dev' or 'test' to initialize those environments
+
+* npx knex migrate:latest --env=production
+* npx knex seed:run --env=production
+
+If deployed on Heroku, the following commands should used instead, from the Heroko CLI:
+
+* heroku run knex migrate:latest -a _heroku-app-name_
+* heroku run knex seed:run -a _heroku-app-name_
+
+The app makes use of several environment variables to determine which database to use and to set parameters for hashing and encryption.
+
+For running on a local machine, the following lines should be placed in a .env file in the root folder.  The DB_USER and DB_PASS variables are needed if you are connecting to PostgreSQL locally.
+
+```
+JWT_SECRET=your-token-encryption-key
+HASH_ROUNDS=number-of-hash-rounds-to-use-for-passwords
+DB_USER=postgres-user-name
+DB_PASS=postgres-password
+```
+
+There is also an environment variable, NODE_ENV, which is set in the package.json file in the server and test script invocations, to either 'dev' or 'test'.  Similar code can be added to the start script invocation with 'production' as the value, if desired.
+
+To set the environment variables on Heroku, select the 'Settings' tab and click 'Reveal Config Vars'.  If you are using PostgreSQL on Heroku, there should already be a config var for DATABASE_URL which will take the place of the DB_USER and DB_PASS variables.  You should set variables for JWT_SECRET, HASH_ROUNDS, and NODE_ENV with the same values as described above.
+
+
+## Table structure
+
+
 The backend for this project uses a database with four tables:
 
 * users
@@ -15,9 +49,6 @@ The users are divided into two types:
 Both types of users can *mark* a profile or posting with a +1 or positive swipe, or a -1 or negative swipe.  These marks relate a particular profile to a particular posting and not one user to another.  (For example, an employer might like job-seeker for one job but think they're a bad match for another job that they've posted.)
 
 The database enforces foriegn key consistency but pretty much everything else is left to the front-end to enforce.  So developers are free to reinterpret the meanings of these fields as they see fit.
-
-
-## Table structure
 
 
 ### users - users and their roles
