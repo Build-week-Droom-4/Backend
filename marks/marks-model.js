@@ -38,7 +38,9 @@ async function add(mark) {
     mark: mark.mark || 0,
   };
 
-  const [id] = await db('marks').insert(cleanMark);
+  const [id] = await db('marks')
+    .returning('id')
+    .insert(cleanMark);
   return findById(id);
 }
 

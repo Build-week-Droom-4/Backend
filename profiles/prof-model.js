@@ -46,7 +46,9 @@ async function add(profile) {
     job_history3: profile.job_history3 || '',
   };
 
-  const [id] = await db('profiles').insert(cleanProfile);
+  const [id] = await db('profiles')
+    .returning('id')
+    .insert(cleanProfile);
   return findById(id);
 }
 
