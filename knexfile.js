@@ -32,11 +32,6 @@ const production = {
 const sqlite3 = {
   client: 'sqlite3',
   useNullAsDefault: true,
-  migrations: {
-    directory: './database/migrations',
-    tableName: 'dbmigrations',
-  },
-  seeds: { directory: './database/seeds' },
   // needed when using foreign keys
   pool: {
     afterCreate: (conn, done) => {
@@ -49,6 +44,11 @@ const sqlite3 = {
 // dev environment
 const dev = {
   ...sqlite3,
+  migrations: {
+    directory: './database/dev/migrations',
+    tableName: 'dbmigrations',
+  },
+  seeds: { directory: './database/dev/seeds' },
   connection: {
     filename: './database/droom.db3',
   },
@@ -57,6 +57,11 @@ const dev = {
 // test environment
 const test = {
   ...sqlite3,
+  migrations: {
+    directory: './database/test/migrations',
+    tableName: 'dbmigrations',
+  },
+  seeds: { directory: './database/test/seeds' },
   connection: {
     filename: './database/droom_test.db3',
   },
